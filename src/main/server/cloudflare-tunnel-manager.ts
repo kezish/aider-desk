@@ -19,9 +19,9 @@ export class CloudflareTunnelManager {
       setCloudflaredBinary(CLOUDFLARED_BINARY_PATH);
     }
 
-    const port = isDev() ? 5173 : SERVER_PORT;
-    logger.info('Starting tunnel...', { port });
-    this.tunnel = Tunnel.quick(`http://localhost:${port}`);
+    const targetUrl = isDev() ? process.env.ELECTRON_RENDERER_URL || 'http://localhost:5173' : `http://localhost:${SERVER_PORT}`;
+    logger.info('Starting tunnel...', { targetUrl });
+    this.tunnel = Tunnel.quick(targetUrl);
 
     try {
       // Wait for URL
