@@ -53,6 +53,7 @@ export default defineConfig({
     ],
     server: {
       host: '0.0.0.0',
+      allowedHosts: ['.trycloudflare.com'],
       hmr: process.env.NO_HMR === 'true' ? false : undefined,
     },
   },
