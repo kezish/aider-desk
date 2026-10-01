@@ -42,3 +42,6 @@ e2e/.playwright
 
 # Benchmarks
 benchmarks
+
+# direnv
+.direnv/
