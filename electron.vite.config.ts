@@ -8,6 +8,8 @@ const posthogDefine = {
   'process.env.POSTHOG_PUBLIC_API_KEY': JSON.stringify(process.env.POSTHOG_PUBLIC_API_KEY ?? ''),
 };
 
+const backendTarget = `http://127.0.0.1:${process.env.AIDER_DESK_PORT ?? '24337'}`;
+
 export default defineConfig({
   main: {
     define: posthogDefine,
@@ -55,6 +57,17 @@ export default defineConfig({
       host: '0.0.0.0',
       allowedHosts: ['.trycloudflare.com'],
       hmr: process.env.NO_HMR === 'true' ? false : undefined,
+      proxy: {
+        '/api': {
+          target: backendTarget,
+          changeOrigin: true,
+        },
+        '/socket.io': {
+          target: backendTarget,
+          changeOrigin: true,
+          ws: true,
+        },
+      },
     },
   },
 });

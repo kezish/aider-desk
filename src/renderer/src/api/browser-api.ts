@@ -164,8 +164,9 @@ export class BrowserApi implements ApplicationAPI {
   constructor() {
     // Allow overriding the API port via query param (e.g. when opening the dev renderer in a browser against a dev server)
     const apiPortOverride = new URLSearchParams(window.location.search).get('apiPort');
-    const port = apiPortOverride || (window.location.port === '5173' ? '24337' : window.location.port);
-    const baseUrl = `${window.location.protocol}//${window.location.hostname}${port ? `:${port}` : ''}`;
+    const baseUrl = apiPortOverride
+      ? `${window.location.protocol}//${window.location.hostname}:${apiPortOverride}`
+      : window.location.origin;
 
     this.socket = io(baseUrl, {
       autoConnect: true,
