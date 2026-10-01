@@ -19,7 +19,11 @@ export class CloudflareTunnelManager {
       setCloudflaredBinary(CLOUDFLARED_BINARY_PATH);
     }
 
-    const targetUrl = isDev() ? process.env.ELECTRON_RENDERER_URL || 'http://localhost:5173' : `http://localhost:${SERVER_PORT}`;
+    const targetUrl = isDev() ? process.env.ELECTRON_RENDERER_URL : `http://localhost:${SERVER_PORT}`;
+    if (!targetUrl) {
+      throw new Error('ELECTRON_RENDERER_URL is not set in development mode');
+    }
+
     logger.info('Starting tunnel...', { targetUrl });
     this.tunnel = Tunnel.quick(targetUrl);
 

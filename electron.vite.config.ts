@@ -4,11 +4,13 @@ import { defineConfig } from 'electron-vite';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
+import { resolveServerPort } from './packages/common/src/server-config';
+
 const posthogDefine = {
   'process.env.POSTHOG_PUBLIC_API_KEY': JSON.stringify(process.env.POSTHOG_PUBLIC_API_KEY ?? ''),
 };
 
-const backendTarget = `http://127.0.0.1:${process.env.AIDER_DESK_PORT ?? '24337'}`;
+const backendTarget = `http://127.0.0.1:${resolveServerPort(process.env.AIDER_DESK_PORT)}`;
 
 export default defineConfig({
   main: {
